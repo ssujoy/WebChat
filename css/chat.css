@@ -1,0 +1,126 @@
+body{
+	height: 200%;
+	background-image: url('../img/online.png');
+}
+
+.chatNameList{
+	top: 0;
+	right: 0;
+	position: fixed;
+	height: 100%;
+	width: 250px;
+	border: solid thin black;
+	overflow: auto;
+	background-color: white;
+}
+
+.chatNameList .name{
+	height: 40px;
+	background-color: rgba(255, 197, 197, 0.91);
+	cursor: pointer;
+	line-height: 40px;
+}
+
+.chatNameList .name label{
+	font-size: 12px;
+    font-weight: normal;
+	display: inline-block;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.chatNameList .name:hover{
+	border-bottom: solid thin black;
+	border-top: solid thin black;
+	height: 40px;
+	background-color: rgb(253, 171, 220);
+	cursor: pointer;
+}
+
+.input-group{
+	position: fixed;
+	width: 250px;
+}
+
+.ProPic{
+	height: 35px;
+	width: 35px;
+	float: left;
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.onlineImg{
+	height: 15px;
+	width: 15px;
+	float: right;
+	margin-right: 10px;
+	margin-top: 13px;
+}
+
+.chatbox{
+	position: fixed;
+	bottom: 0;
+	right: 260px;
+	height: 300px;
+	width: 250px;
+	border: solid thin black;
+}
+
+.chatbox .topbar{
+	position: relative;
+	height: 30px;
+	background-color: rgb(253, 171, 220);;
+}
+
+.chatbox .topbar label{
+	font-size: 12px;
+    font-weight: normal;
+	display: inline-block;
+	margin-left: 10px;
+	cursor: pointer;
+	line-height: 30px;
+}
+
+.chatbox .topbar .close{
+	font-size: 12px;
+    font-weight: normal;
+	margin-left: 10px;
+	cursor: pointer;
+	line-height: 30px;
+	float: right;
+	margin-right: 10px;
+	color: black;
+}
+
+.chatbox .content{
+	overflow-y: auto;
+	position: relative;
+	height: 237px;
+	/*background-color: rgb(249, 249, 249);*/
+	background-color: white;
+	font-size: 10px;
+}
+
+.chatbox .content .myMsg{
+	display: inline-block;
+    padding: 7px;
+	margin: 3px;
+	font-size: 13px;
+	height: auto;
+	float: right;
+	border-radius: 7px;
+	width: 90%;
+	background-color: #FFEAF5;
+}
+.chatbox .content .yourMsg{
+	display: inline-block;
+    padding: 7px;
+	margin: 3px;
+	font-size: 13px;
+	height: auto;
+	float: left;
+	border-radius: 7px;
+	width: 90%;
+	background-color: #E6D6FF;
+}
