@@ -1,30 +1,25 @@
 var chat = angular.module('chat',[]);
 
-chat.directive( 'compileData', function ( $compile ) {
-  return {
-    scope: true,
-    link: function ( scope, element, attrs ) {
-
-      var elmnt;
-
-      attrs.$observe( 'template', function ( myTemplate ) {
-        if ( angular.isDefined( myTemplate ) ) {
-          // compile the provided template against the current scope
-          elmnt = $compile( myTemplate )( scope );
-
-            //element.html(""); // dummy "clear"
-
-          element.append( elmnt );
-        }
-      });
-    }
-  };
+chat.directive('compileChatbox', function ($compile) {
+	return {
+    	scope: true,
+    	link: function (scope, element, attrs) {
+      		var e;
+      		attrs.$observe('template', function (chatboxTemplate) {
+        		if (angular.isDefined(chatboxTemplate)) {
+          			e = $compile(chatboxTemplate)(scope);
+            		//element.html("");
+         	 		element.append(e);
+        		}
+      		});
+    	}
+  	};
 });
 
 chat.factory('chatFactory',['$http', function ($http){
 	return {
 		'getChatList' : function(){
-			return $http.get("data/chatList.json");//['Sujoy Saha', 'Payel Das'];
+			return $http.get("data/chatList.json");
 		}
 	}
 }]);
@@ -32,19 +27,20 @@ chat.factory('chatFactory',['$http', function ($http){
 chat.controller('chatController', function($scope, $compile, chatFactory){
 	$scope.users = [];
 	$scope.searchedUsers = [];
+	$scope.addedChatBox = "";
 	chatFactory.getChatList()
 		.success(function(data){
 			console.log(data.users);
 			$scope.users = $scope.searchedUsers = data.users;
 		});
 
-	$scope.addChatBox = function(id, right, name){
-		var chatBoxHtml = '<div id="'+id+'" class="chatbox" style="right:'+right+'px">'+
+	$scope.addChatBox = function(id, name){
+		var chatBoxHtml = '<div id="'+id+'" class="chatbox">'+
 				'<div class="topbar">'+
 					'<label>'+name+'</label>'+
 					'<div class="close" ng-click="closeChatbox('+id+')">X</div>'+
 				'</div>'+
-				'<div class="content">'+
+				'<div class="content">{{hello}}'+
 					'<div class="myMsg">This is my message. this is myMsg.</div>'+
 					'<div class="yourMsg">This is your message. this is yourMsg.</div>'+
 					'<div class="myMsg">This is my message. this is myMsg.</div>'+
@@ -72,48 +68,70 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 			|| $.trim($scope.chatBoxSearchText) == ''
 			|| $scope.chatBoxSearchText == undefined ){
 				$scope.searchedUsers = $scope.users;
-		}
-		var results = [];
-  		for (var i = 0; i < $scope.users.length; i++) {
-    		if ($scope.users[i].name.indexOf($scope.chatBoxSearchText) == 0) {
-      			results.push($scope.users[i]);
-    		}
+		}else{
+			$scope.searchedUsers = 
+			$.grep( $scope.users, function( val, index ) {
+	  			return val.name.toLowerCase().indexOf($scope.chatBoxSearchText.toLowerCase()) == 0;
+			});
   		}
-  		$scope.searchedUsers = results;
 	}
 
 	function removeChatManager(id){
+		var result = [];
 		for(var i = 0; i< $scope.chatManager.length ; i++){
-			if($scope.chatManager[i].id == id){
-				$scope.chatManager.splice(i, 1);
+			if($scope.chatManager[i].id != id){
+				result.push($scope.chatManager[i]);
 			}
 		}
+		$scope.chatManager = result;
+		alert("remove"+$scope.chatManager.length);
+	}
+
+	function isChatboxOpen(id){
+		for(var i = 0; i< $scope.chatManager.length ; i++){
+			if($scope.chatManager[i].id == id){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function isChatboxMaxNumber(){
+		if($scope.chatManager.length >= 3)
+			return true;
+		return false;
+	} 
+	
+	$scope.closeChatbox = function(id){
+		$scope.addedChatBox = "";
+		$('#'+id).remove();
+		removeChatManager(id);
+	}
+
+	function addChatManager(chatBoxObject){
+		if(isChatboxMaxNumber()){
+			$scope.closeChatbox($scope.chatManager[0].id);
+		}
+		$scope.chatManager.push(chatBoxObject);
+		$scope.addedChatBox = $scope.addChatBox(chatBoxObject.id, chatBoxObject.name);
 	}
 
 	// Chat Box Controll box
 	$scope.chatManager = [];
 
-	$scope.openChatBox = function(id){
-		alert($('#'+id).attr('data-chat-id'));
-		var chatBoxObject = {name:$('#'+id).attr('data-chat-name'),
-							id:$('#'+id).attr('data-chat-id')}
-		$scope.chatManager.push(chatBoxObject);
-		var id = $scope.chatManager[$scope.chatManager.length - 1].id;
-		var name = $scope.chatManager[$scope.chatManager.length - 1].name;
-		var right = $scope.chatManager.length * 260;
-		//alert($scope.addChatBox(id, 530, name));
-		$scope.addedChatBox = $scope.addChatBox(id, right, name);
-		//$compile(e)($scope);
-		//$('.chatBoxContainer').append(e);
-		$(".content").scrollTop($(".content")[0].scrollHeight);
-		//alert(id);
-	}
+	$scope.openChatBox = function(index){
+		var currentId = $('#'+index).attr('data-chat-id');
+		var currentName = $('#'+index).attr('data-chat-name');
+		if(isChatboxOpen(currentId)){
+			return;
+		}else{
+			var chatBoxObject = {name:currentName,
+								id:currentId}
 
-	$scope.closeChatbox = function(id){
-		alert("IN");
-		$('#'+id).remove();
-		removeChatManager(id);
-		console.log($scope.chatManager);
+			addChatManager(chatBoxObject);
+
+			alert($scope.chatManager.length);
+		}
 	}
 });
 
@@ -122,17 +140,30 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
             $(".chatNameList").mCustomScrollbar({
             	theme:"dark-thick"
             });
-            /*$(".content").mCustomScrollbar({
+            $(".content").mCustomScrollbar({
             	theme:"dark-thick",
             	callbacks:{
       				onTotalScrollOffset: 10000
 				}
-            })*/
-            $(".content").scrollTop($(".content")[0].scrollHeight);
+            });
+            //$(".content").scrollTop($(".content")[0].scrollHeight);
 
-            $('#chat-ip-1').keypress(function (e) {
+            $('.hideChatListBtn').click(function(){
+            	$('.hideChatListBtn').hide();
+            	$('.showChatListBtn').show();
+            	$('.chatNameList').animate({ "right": "-=252px" }, "slow");
+            	$('.chatBoxContainer').animate({ "right": "-=252px" }, "slow");
+            });
+            $('.showChatListBtn').click(function(){
+            	$('.hideChatListBtn').show();
+            	$('.showChatListBtn').hide();
+            	$('.chatNameList').animate({ "right": "+=252px" }, "slow");
+            	$('.chatBoxContainer').animate({ "right": "+=252px" }, "slow");
+            });
+
+            $('.chatbox .form-control').keypress(function (e) {
  	 		if (e.which == 13) {
-    			alert("HIT");
+    			alert("HIT ENTER");
     			return false;    //<---- Add this line
   			}
 			});

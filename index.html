@@ -6,20 +6,20 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
 		<link rel="stylesheet" type="text/css" href="css/chat.css">
 		<script src="js/angular.min.js"></script>
-		<script src="js/angular-local-storage.min.js"></script>
-		<script src="js/angular-route.min.js"></script>
-		<script src="js/angular-cookies.min.js"></script>
 		<script src="js/jquery-1.11.3.min.js"></script>
 		<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-		<script src="js/bootbox.min.js"></script>
-		<script src="js/app.js"></script>
 		<script src="js/chat.js"></script>
 	</head>
 	<body ng-app = "chat" ng-controller = "chatController">
+
+	This Can be any screen. Just add the below code and chat module will work.
+
 		<!-- START This is Chat list window -->
 		<div class="chatNameList">
 			<div class="input-group">
+				<div class="hideChatListBtn"></div>
+				<div class="showChatListBtn" style="display:none"></div>
             	<input type="text" ng-change="findName()" ng-model="chatBoxSearchText" class="form-control" placeholder="Search">
         	</div>
         	<div class="chat-name" style="height:35px;">
@@ -38,7 +38,7 @@
 		<!-- END This is Chat list window -->
 
 
-		<div class="chatBoxContainer" compile-data template="{{addedChatBox}}">
+		<div class="chatBoxContainer" compile-chatbox template="{{addedChatBox}}">
 			<!--<div id="1" class="chatbox">
 				<div class="topbar">
 					<label>Sujoy Saha</label>

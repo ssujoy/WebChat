@@ -59,12 +59,12 @@ body{
 }
 
 .chatbox{
-	position: fixed;
-	bottom: 0;
-	right: 260px;
+	position: relative;
 	height: 300px;
 	width: 250px;
 	border: solid thin black;
+	float: left;
+	margin-right: 5px;
 }
 
 .chatbox .topbar{
@@ -123,4 +123,33 @@ body{
 	border-radius: 7px;
 	width: 90%;
 	background-color: #E6D6FF;
+}
+
+.chatBoxContainer{
+	position: fixed; 
+	bottom: 0;
+	right: 250px;
+	height: 300px;
+}
+
+.hideChatListBtn{
+	background-image: url('../img/right-arrow.png');
+	background-size: 30px 30px;
+	border: solid thin black;
+	width: 30px;
+	height: 30px;
+	position: fixed;
+	margin-left: -30px;
+	cursor: pointer;
+}
+
+.showChatListBtn{
+	background-image: url('../img/left-arrow.png');
+	background-size: 30px 30px;
+	border: solid thin black;
+	width: 30px;
+	height: 30px;
+	position: fixed;
+	margin-left: -30px;
+	cursor: pointer;
 }
