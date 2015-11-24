@@ -84,7 +84,6 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 			}
 		}
 		$scope.chatManager = result;
-		alert("remove"+$scope.chatManager.length);
 	}
 
 	function isChatboxOpen(id){
@@ -129,8 +128,6 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 								id:currentId}
 
 			addChatManager(chatBoxObject);
-
-			alert($scope.chatManager.length);
 		}
 	}
 });
