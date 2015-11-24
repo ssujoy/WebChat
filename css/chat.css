@@ -1,6 +1,6 @@
 body{
 	height: 200%;
-	background-image: url('../img/online.png');
+	background-image: url('../img/user.jpg');
 }
 
 .chatNameList{
@@ -14,14 +14,14 @@ body{
 	background-color: white;
 }
 
-.chatNameList .name{
+.chatNameList .chat-name{
 	height: 40px;
 	background-color: rgba(255, 197, 197, 0.91);
 	cursor: pointer;
 	line-height: 40px;
 }
 
-.chatNameList .name label{
+.chatNameList .chat-name label{
 	font-size: 12px;
     font-weight: normal;
 	display: inline-block;
@@ -29,7 +29,7 @@ body{
 	cursor: pointer;
 }
 
-.chatNameList .name:hover{
+.chatNameList .chat-name:hover{
 	border-bottom: solid thin black;
 	border-top: solid thin black;
 	height: 40px;

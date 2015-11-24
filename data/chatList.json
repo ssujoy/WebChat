@@ -1,23 +1,5 @@
 {
-	"users" : ["Sujoy Saha", "Payel Das",
-	"Ka Macfarlane",
-"Corrina Galaz",
-"Bok Bradstreet",
-"Ashlyn Avilez",
-"Angel Peguero",
-"Markita Cecere",
-"Christian Litherland",
-"Susy Kissell",
-"Elias Strandberg",
-"Shannon Bancroft",
-"Randa Lumsden",
-"Paul Buker",
-"Erika Charlton",
-"Shawnee Holahan",
-"Carlena Deherrera",
-"Sandra Cravens",
-"Nelda Montealegre",
-"Major Estepp",
-"Dario Mathison",
-"Yukiko Janson"]
+	"users" : 
+	[{"id" : "1", "name" : "Sujoy Saha"},
+	{"id" : "2", "name" : "Atanu Das"}]
 }
