@@ -82,6 +82,14 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
   		$scope.searchedUsers = results;
 	}
 
+	function removeChatManager(id){
+		for(var i = 0; i< $scope.chatManager.length ; i++){
+			if($scope.chatManager[i].id == id){
+				$scope.chatManager.splice(i, 1);
+			}
+		}
+	}
+
 	// Chat Box Controll box
 	$scope.chatManager = [];
 
@@ -104,6 +112,8 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 	$scope.closeChatbox = function(id){
 		alert("IN");
 		$('#'+id).remove();
+		removeChatManager(id);
+		console.log($scope.chatManager);
 	}
 });
 
