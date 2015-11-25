@@ -1,17 +1,20 @@
 body{
-	height: 200%;
-	background-image: url('../img/user.jpg');
+	height: 130%;
+	background-image: url('../img/background.jpg');
+	background-size: 100% 100%;
+	font-size: 20px;
 }
 
 .chatNameList{
 	top: 0;
-	right: 0;
+	right: -208;
 	position: fixed;
 	height: 100%;
 	width: 250px;
 	border: solid thin black;
 	overflow: auto;
 	background-color: white;
+	box-shadow: inset 13px -19px 75px gray;
 }
 
 .chatNameList .chat-name{
@@ -19,6 +22,7 @@ body{
 	background-color: rgba(255, 197, 197, 0.91);
 	cursor: pointer;
 	line-height: 40px;
+	box-shadow: inset -10px -10px 50px rgb(255, 12, 0);
 }
 
 .chatNameList .chat-name label{
@@ -42,12 +46,13 @@ body{
 	width: 250px;
 }
 
-.ProPic{
+.ProPic, .ProPic img {
 	height: 35px;
 	width: 35px;
 	float: left;
 	display: inline-block;
-	margin-left: 5px;
+	margin-left: 2px;
+	border-radius: 17px;
 }
 
 .onlineImg{
@@ -70,7 +75,8 @@ body{
 .chatbox .topbar{
 	position: relative;
 	height: 30px;
-	background-color: rgb(253, 171, 220);;
+	background-color: rgb(253, 171, 220);
+	box-shadow: inset 6px -12px 38px rgba(255, 12, 0, 0.65);
 }
 
 .chatbox .topbar label{
@@ -128,14 +134,13 @@ body{
 .chatBoxContainer{
 	position: fixed; 
 	bottom: 0;
-	right: 250px;
+	right: 42px;
 	height: 300px;
 }
 
 .hideChatListBtn{
 	background-image: url('../img/right-arrow.png');
 	background-size: 30px 30px;
-	border: solid thin black;
 	width: 30px;
 	height: 30px;
 	position: fixed;
@@ -146,7 +151,6 @@ body{
 .showChatListBtn{
 	background-image: url('../img/left-arrow.png');
 	background-size: 30px 30px;
-	border: solid thin black;
 	width: 30px;
 	height: 30px;
 	position: fixed;

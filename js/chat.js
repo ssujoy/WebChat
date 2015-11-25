@@ -101,15 +101,23 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 		return false;
 	} 
 	
-	$scope.closeChatbox = function(id){
+	$scope.closeChatbox = function(id, wait){
 		$scope.addedChatBox = "";
-		$('#'+id).remove();
-		removeChatManager(id);
+		$('#'+id).hide('slow');
+		if(!wait){
+			setTimeout(function(){
+				$('#'+id).remove();
+				removeChatManager(id);
+			},1000);
+		}else{
+			$('#'+id).remove();
+			removeChatManager(id);
+		}
 	}
 
 	function addChatManager(chatBoxObject){
 		if(isChatboxMaxNumber()){
-			$scope.closeChatbox($scope.chatManager[0].id);
+			$scope.closeChatbox($scope.chatManager[0].id, true);
 		}
 		$scope.chatManager.push(chatBoxObject);
 		$scope.addedChatBox = $scope.addChatBox(chatBoxObject.id, chatBoxObject.name);
@@ -148,14 +156,14 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
             $('.hideChatListBtn').click(function(){
             	$('.hideChatListBtn').hide();
             	$('.showChatListBtn').show();
-            	$('.chatNameList').animate({ "right": "-=252px" }, "slow");
-            	$('.chatBoxContainer').animate({ "right": "-=252px" }, "slow");
+            	$('.chatNameList').animate({ "right": "-=208px" }, "slow");
+            	$('.chatBoxContainer').animate({ "right": "-=208px" }, "slow");
             });
             $('.showChatListBtn').click(function(){
             	$('.hideChatListBtn').show();
             	$('.showChatListBtn').hide();
-            	$('.chatNameList').animate({ "right": "+=252px" }, "slow");
-            	$('.chatBoxContainer').animate({ "right": "+=252px" }, "slow");
+            	$('.chatNameList').animate({ "right": "+=208px" }, "slow");
+            	$('.chatBoxContainer').animate({ "right": "+=208px" }, "slow");
             });
 
             $('.chatbox .form-control').keypress(function (e) {
