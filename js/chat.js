@@ -103,7 +103,7 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 	
 	$scope.closeChatbox = function(id, wait){
 		$scope.addedChatBox = "";
-		$('#'+id).hide('slow');
+		$('#'+id).fadeOut('slow');
 		if(!wait){
 			setTimeout(function(){
 				$('#'+id).remove();
