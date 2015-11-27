@@ -1,5 +1,24 @@
 var chat = angular.module('chat',[]);
 
+chat.run(function(Poller) {});
+
+chat.factory('Poller', function($http, $timeout) {
+  var data = { response: {}, calls: 0 };
+  var poller = function() {
+    $http.get('data/chatList.json').then(function(r) {
+      data.response = r.data;
+      data.calls++;
+      console.log(data.response);
+      $timeout(poller, 1000);
+    });      
+  };
+  poller();
+
+  return {
+    data: data
+  };
+});
+
 chat.directive('compileChatbox', function ($compile) {
 	return {
     	scope: true,
@@ -36,7 +55,7 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 
 	$scope.addChatBox = function(id, name){
 		var chatBoxHtml = '<div id="'+id+'" class="chatbox">'+
-				'<div class="topbar">'+
+				'<div class="topbar" ng-click="toggleChatbox('+id+')">'+
 					'<label>'+name+'</label>'+
 					'<div class="close" ng-click="closeChatbox('+id+')">X</div>'+
 				'</div>'+
@@ -95,6 +114,25 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 		return false;
 	}
 
+	function setChatbox(id, newChatboxObject){
+		for(var i = 0; i< $scope.chatManager.length ; i++){
+			if($scope.chatManager[i].id == id){
+				$scope.chatManager[i] = $.extend($scope.chatManager[i],newChatboxObject);
+				return $scope.chatManager[i];
+			}
+		}
+		return false;
+	}
+
+	function getChatManager(id){
+		for(var i = 0; i< $scope.chatManager.length ; i++){
+			if($scope.chatManager[i].id == id){
+				return $scope.chatManager[i];
+			}
+		}
+		return false;
+	}
+
 	function isChatboxMaxNumber(){
 		if($scope.chatManager.length >= 3)
 			return true;
@@ -130,12 +168,49 @@ chat.controller('chatController', function($scope, $compile, chatFactory){
 		var currentId = $('#'+index).attr('data-chat-id');
 		var currentName = $('#'+index).attr('data-chat-name');
 		if(isChatboxOpen(currentId)){
+			$scope.toggleChatbox(currentId);
 			return;
 		}else{
 			var chatBoxObject = {name:currentName,
-								id:currentId}
+								id:currentId,
+								hide:false}
 
 			addChatManager(chatBoxObject);
+
+			setTimeout(function(){
+				$('#'+currentId+' .content').scrollTop($(".content")[0].scrollHeight);
+
+				/*$(".content").mCustomScrollbar({
+	            	theme:"dark-thick",
+	            	callbacks:{
+	      				onTotalScrollBackOffset: 10
+					}
+	            });*/
+
+				$('#'+currentId+' .form-control').keypress(function (e) {
+		 	 		if (e.which == 13) {
+		    			//alert($('#'+currentId+' .form-control').val());
+		    			$('#'+currentId+' .content').append('<div class="myMsg">'+$('#'+currentId+' .form-control').val()+'</div>');
+		    			$('#'+currentId+' .content').scrollTop($(".content")[0].scrollHeight);
+		    			$('#'+currentId+' .form-control').val('');
+		    			return false;
+		  			}
+				});
+			},100);
+		}
+	}
+
+	$scope.toggleChatbox = function(id){
+		if(chatboxObject = getChatManager(id)){
+			if(chatboxObject.hide){
+				$('#'+id).animate({ "top": "-=269px","width":"+=80px" }, "fast");
+				console.log(setChatbox(id,{hide:false}));
+			}
+			else{
+				$('#'+id).animate({ "top": "+=269px","width":"-=80px" }, "fast");
+				console.log(setChatbox(id,{hide:true}));
+			}
+
 		}
 	}
 });
